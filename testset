@@ -48,13 +48,13 @@ fi
 
 INS=()
 OUTS=()
-i=1
+i=0
 for FILE in "${TEST_DIR}"/*_in[^_]* ; do
     INS[$i]="${FILE}"
     i=$(( $i+1 ))
 done
 
-i=1
+i=0
 for FILE in "${TEST_DIR}"/*_out[^_]* ; do
     OUTS[$i]="${FILE}"
     i=$(( $i+1 ))
@@ -62,7 +62,7 @@ done
 
 LEN=${#INS[@]}
 
-for TNUM in `seq 1 $LEN` ; do
+for TNUM in `seq 0 $(( $LEN - 1 ))` ; do
     printf "\e[1;33mtesting\e[0m: %04d..." $TNUM
     DIFF_OUT="`${PRG_EXEC} < ${INS[$TNUM]} | ${DIFF_COMMAND} - ${OUTS[$TNUM]}`"
     [ -n "$DIFF_OUT" ] && echo -e "\n\e[1;31mALERT\e[0m: diff produced output:\n${DIFF_OUT}\n" \
